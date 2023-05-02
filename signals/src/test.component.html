@@ -1,0 +1,7 @@
+<div>{{ message() }}</div>
+
+<div>
+  <input type="text" [value]="name()" (input)="changeName($event)" />
+</div>
+
+<option [data]="todos$ | async"></option>
