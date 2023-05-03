@@ -11,3 +11,14 @@
   justify-content: center;
   align-items: center;
 }
+
+.wrapper {
+  display: block;
+  height: calc(100vh - 56px);
+  background: #212529;
+  color: white;
+}
+
+.sleep {
+  color: red;
+}
