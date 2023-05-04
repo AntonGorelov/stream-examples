@@ -12,6 +12,11 @@ const routes: Routes = [
     path: 'rxjs',
     component: SolvedComponent,
   },
+  {
+    path: '',
+    redirectTo: 'blocked',
+    pathMatch: 'full',
+  }
 ];
 
 @NgModule({
