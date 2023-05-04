@@ -25,7 +25,9 @@ export class SolvedComponent {
   constructor(
     private readonly _http: HttpClient,
     private readonly _logger: Logger,
-  ) {}
+  ) {
+    this._logger.clear();
+  }
 
   private _longRequest$(): Observable<any> {
     return this._http.get('https://jsonplaceholder.typicode.com/todos')

@@ -25,4 +25,8 @@ export class Logger {
     this._messages$.next(queue);
   }
 
+  public clear(): void {
+    this._messages$.next([]);
+  }
+
 }

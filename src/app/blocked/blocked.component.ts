@@ -21,7 +21,9 @@ export class BlockedComponent implements OnInit {
 
   constructor(
     private readonly _logger: Logger,
-  ) {}
+  ) {
+    this._logger.clear();
+  }
 
   public ngOnInit(): void {
     this.dataOptions$ = this.dataControl.valueChanges
