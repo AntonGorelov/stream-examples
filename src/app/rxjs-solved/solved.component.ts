@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 
-import { Observable, tap, map, switchMap } from 'rxjs';
+import { Observable, tap, map, switchMap, catchError } from 'rxjs';
 
 import { Logger } from '../logger.service';
 import { sleep } from '../utils/sleep';
@@ -32,6 +32,10 @@ export class SolvedComponent {
     return this._http.get('https://jsonplaceholder.typicode.com/todos')
       .pipe(
         tap((items: any) => sleep(1000, this._logger)),
+        catchError(() => {
+          this._logger.log('request interrupted', 'sleep');
+          return [];
+        }),
         map((todos: any[]) =>
           todos.map(() => Math.floor(Math.random() * 100).toString()).slice(0, 15)
         ),
