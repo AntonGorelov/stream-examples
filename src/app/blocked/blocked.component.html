@@ -5,7 +5,16 @@
 
   <div class="container">
     <div class="row d-flex justify-content-center">
-      <div class="col-4">
+      
+      <!-- Logs -->
+      <div class="col-6">
+        <div *ngFor="let log of logs$ | async">
+          <span [ngClass]="log.type">{{ log.message }}</span>
+        </div>
+      </div>
+      
+      <!-- Control -->
+      <div class="col-6">
         <input type="text" [formControl]="dataControl" class="form-control" />
         <app-option [data]="dataOptions$ | async"></app-option>
       </div>

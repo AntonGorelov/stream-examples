@@ -3,13 +3,8 @@ import { FormControl } from '@angular/forms';
 
 import { Observable, map, startWith, tap, of, switchMap } from 'rxjs';
 
-export function sleep(ms: number, data?: string) {
-  const start = performance.now();
-
-  while (performance.now() - start < ms) {
-    console.log(data, Math.floor(performance.now() - start));
-  }
-}
+import { Logger } from '../logger.service';
+import { sleep } from '../utils/sleep';
 
 @Component({
   selector: 'app-blocked',
@@ -18,25 +13,21 @@ export function sleep(ms: number, data?: string) {
 })
 export class BlockedComponent implements OnInit {
 
+  public logs$ = this._logger.messages$();
+
   public dataControl = new FormControl('');
-  public dataOptions: string[] = ['One', 'Two', 'Three', 'cock', 'data100'];
+  public dataOptions = ['One', 'Two', 'Three', 'data100'];
   public dataOptions$!: Observable<string[]>;
 
-  private _longRequest$ = of({}).pipe(
-    tap(() => console.log('start')),
-    map(() => sleep(1000)),
-    map(() => []),
-  );
-
-  constructor() {}
+  constructor(
+    private readonly _logger: Logger,
+  ) {}
 
   public ngOnInit(): void {
     this.dataOptions$ = this.dataControl.valueChanges
       .pipe(
         startWith(''),
-        tap((value) => {
-          console.log('control =>', value);
-        }),
+        tap((value) => this._logger.log(`[ENTER] ${value}`)),
         map((value) => this._filter(value || '')),
         switchMap(() => this._longRequest$),
       );
@@ -49,5 +40,11 @@ export class BlockedComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
+
+  private _longRequest$ = of({})
+    .pipe(
+      map(() => sleep(1000, this._logger)),
+      map(() => []),
+    );
 
 }
