@@ -18,8 +18,7 @@ export class SolvedComponent {
   public control = new FormControl('');
   public todos$ = this.control.valueChanges
     .pipe(
-      tap((value: string | null) => this._logger.log(value)),
-      // map(() => []),
+      tap((value: string | null) => this._logger.log(`[ENTER] ${value}`)),
       switchMap((value: string | null) => this._longRequest$())
     );
 
@@ -33,13 +32,13 @@ export class SolvedComponent {
       .pipe(
         tap((items: any) => sleep(1000, this._logger)),
         catchError(() => {
-          this._logger.log('request interrupted', 'sleep');
+          this._logger.log('[INTERRUPTION] request interrupted', 'error');
           return [];
         }),
         map((todos: any[]) =>
           todos.map(() => Math.floor(Math.random() * 100).toString()).slice(0, 15)
         ),
-        tap((items: any) => this._logger.log('END long request')),
+        tap((items: any) => this._logger.log(' === END LONG REQUEST')),
       );
   }
 

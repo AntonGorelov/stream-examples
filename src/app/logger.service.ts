@@ -17,11 +17,11 @@ export class Logger {
     return this._messages$.asObservable();
   }
 
-  public log(message: string | null, type: 'default' | 'sleep' = 'default'): void {
+  public log(message: string | null, type: 'default' | 'error' | 'success' = 'default'): void {
     const queue = this._messages$.value;
     queue.push({ message, type });
 
-    console.log(`%c${message}`, "color:red; font-size: x-medium");
+    console.log(`%c${message}`, `color:red; font-size: x-medium`);
     this._messages$.next(queue);
   }
 
